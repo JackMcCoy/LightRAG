@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 
-VERBOSE_DEBUG = os.getenv("VERBOSE", "false").lower() == "true"
+VERBOSE_DEBUG = True#os.getenv("VERBOSE", "false").lower() == "true"
 
 
 def verbose_debug(msg: str, *args, **kwargs):

@@ -51,6 +51,7 @@ from .utils import (
     clean_text,
     check_storage_env_vars,
     logger,
+    setup_logger
 )
 from .types import KnowledgeGraph
 from dotenv import load_dotenv
@@ -61,7 +62,7 @@ load_dotenv(override=True)
 # TODO: TO REMOVE @Yannick
 config = configparser.ConfigParser()
 config.read("config.ini", "utf-8")
-
+setup_logger('lightrag-logger','DEBUG',True)
 
 @final
 @dataclass
