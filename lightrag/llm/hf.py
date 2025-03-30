@@ -40,10 +40,10 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 @lru_cache(maxsize=1)
 def initialize_hf_model(model_name):
     hf_tokenizer = AutoTokenizer.from_pretrained(
-        model_name, gguf_file='/Users/davidgill/llama.cpp/models/llama3.1-8B-Instruct-Q4_K_M.gguf', device_map="auto", trust_remote_code=True
+        model_name, device_map="auto", trust_remote_code=True
     )
     hf_model = AutoModelForCausalLM.from_pretrained(
-            model_name, gguf_file='/Users/davidgill/llama.cpp/models/llama3.1-8B-Instruct-Q4_K_M.gguf',device_map="auto", trust_remote_code=True
+            model_name, device_map="auto", trust_remote_code=True
     )
     if hf_tokenizer.pad_token is None:
         hf_tokenizer.pad_token = hf_tokenizer.eos_token
@@ -111,7 +111,7 @@ async def hf_model_if_cache(
     ).to("mps")
     inputs = {k: v.to(hf_model.device) for k, v in input_ids.items()}
     output = hf_model.generate(
-        **input_ids, max_new_tokens=512*8, num_return_sequences=2, num_beams=2, early_stopping=True
+        **input_ids, max_new_tokens=512, num_return_sequences=1, num_beams=2, early_stopping=True
     )
     response_text = hf_tokenizer.decode(
         output[0][len(inputs["input_ids"][0]) :], skip_special_tokens=True
